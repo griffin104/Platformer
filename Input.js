@@ -21,7 +21,7 @@
             mousePos.x > rect && mousePos.x < rect + 120 &&
         mousePos.y > 120 && mousePos.y < 200) {
             currentLevel = window.localStorage.getItem(i);
-            testMap();
+            loadMap();
      }
     }
     for (let i = 5; i <= 8; i++) {
@@ -30,7 +30,7 @@
             mousePos.x > rect && mousePos.x < rect + 120 &&
         mousePos.y > 260 && mousePos.y < 340) {
             currentLevel = window.localStorage.getItem(i);
-            testMap();
+            loadMap();
       }
      }
     }  

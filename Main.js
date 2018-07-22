@@ -1,4 +1,9 @@
-function testMap() {
+function loadMap() {
+    player = [];
+    lava = [];
+    exit = [];
+    ground = [];
+    coin = [];
     if (currentLevel.length === 300) {
         mapWidth = 30;
         canvas.width = 600;
