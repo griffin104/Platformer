@@ -21,7 +21,8 @@
             mousePos.x > rect && mousePos.x < rect + 120 &&
         mousePos.y > 120 && mousePos.y < 200) {
             currentLevel = window.localStorage.getItem(i);
-            loadMap();
+            levelSelectScreen = false;
+            doDraw.init();
      }
     }
     for (let i = 5; i <= 8; i++) {
@@ -30,10 +31,21 @@
             mousePos.x > rect && mousePos.x < rect + 120 &&
         mousePos.y > 260 && mousePos.y < 340) {
             currentLevel = window.localStorage.getItem(i);
-            loadMap();
+            levelSelectScreen = false;
+            doDraw.init();
       }
      }
-    }  
+    }
+
+    function move(e) {
+        keyState[e.keyCode || e.which] = true;
+    }
+
+    function stopMove(e) {
+        keyState[e.keyCode || e.which] = false;
+    }
    
    canvas.addEventListener("click", play);
    canvas.addEventListener("click", playLevel);
+   document.addEventListener("keydown", move);
+   document.addEventListener("keyup", stopMove);
