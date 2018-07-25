@@ -21,6 +21,8 @@ function title() {
     ctx.font = "28px Arial";
     ctx.fillText("CREATE", 450, 275);
     ctx.fillText("LEVEL", 450, 303);
+    ctx.fillStyle = "black";
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
 
 //Level Select
@@ -59,6 +61,8 @@ function levelSelect() {
             ctx.fillRect(rect, 260, 120, 80);
         }
     }
+    ctx.fillStyle = "black";
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
 
 //Load default levels

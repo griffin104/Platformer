@@ -58,10 +58,34 @@ let doDraw = (function () {
     }
  }
 
- let onGround = function(yBot, xLeft, xRight) {
+ let collide = function(arr) {
+     let answer = null;
+     for (let i = 0; i < arr.length; i++) {
+         for (let j = 0; j < player.length; j++) {
+             if (!((player[j].x > arr[i].x + almostOne) || (player[j].x + almostOne < arr[i].x) ||
+            (player[j].y > arr[i].y + almostOne) || (player[j].y + almostOne < arr[i].y))) {
+                answer = i;
+            }
+         }
+     }
+     return answer;
+ }
+
+ let openExit = function() {
+    let answer = false;
+     if (coin.length === 0) {
+         for (let i = 0; i < exit.length; i++) {
+             exit[i].color = "white";
+             answer = true;
+         }
+     }
+     return answer;
+ }
+
+ let onGround = function() {
     for (let i = 0; i < ground.length; i++) {
-        if (((xLeft === ground[i].x) || (xRight === ground[i].x)) && 
-        (yBot === ground[i].y)) {
+        if (((Math.floor(player[1].x) === ground[i].x) ||
+        (Math.ceil(player[1].x) === ground[i].x)) && (Math.floor(player[1].y + 1) === ground[i].y)) {
             player[0].y = Math.floor(player[0].y);
             player[1].y = Math.floor(player[1].y);
             return true;
@@ -70,10 +94,10 @@ let doDraw = (function () {
     return false;
  }
 
- let headBonk = function(xLeft, xRight, yTop) {
+ let headBonk = function() {
      for (let i = 0; i < ground.length; i++) {
-         if (((xLeft === ground[i].x) || (xRight === ground[i].x)) && 
-         (yTop === ground[i].y)) {
+         if (((Math.floor(player[0].x) === ground[i].x) || 
+         (Math.ceil(player[0].x) === ground[i].x)) && (Math.ceil(player[0].y - 1) === ground[i].y)) {
             player[0].y = Math.ceil(player[0].y);
             player[1].y = Math.ceil(player[1].y);
             return true;
@@ -82,21 +106,15 @@ let doDraw = (function () {
      return false;
  }
 
- let sidewaysCollision = function(xLeft, xRight, yTop, yBot) {
+ let sidewaysCollision = function() {
      for (let i = 0; i < ground.length; i++) {
         for (let j = 0; j < player.length; j++) {
-            if ((yTop === ground[i].y) || (yBot === ground[i].y) && 
-            (xLeft === ground[i].x)) {
-                player[0].x = Math.ceil(player[0].x);
-                player[1].x = Math.ceil(player[1].x);
-                console.log("left")
+            if (((Math.floor(player[j].y) === ground[i].y) || 
+            (Math.ceil(player[j].y) === ground[i].y)) && (Math.ceil(player[j].x - 1) === ground[i].x)) {
                 return "left";
       }
              if (((Math.floor(player[j].y) === ground[i].y) || 
-            (yBot === ground[i].y)) && (xRight === ground[i].x)) {
-                player[0].x = Math.floor(player[0].x);
-                player[1].x = Math.floor(player[1].x);
-                console.log("right")
+            (Math.ceil(player[j].y) === ground[i].y)) && (Math.floor(player[j].x + 1) === ground[i].x)) {
                 return "right";
       }
     }
@@ -105,7 +123,6 @@ let doDraw = (function () {
 }
 
  let paint = function() {
-
     //Draw everything
     ctx.fillStyle = lightBlue;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -114,37 +131,50 @@ let doDraw = (function () {
     drawMap(lava);
     drawMap(exit);
     drawMap(player);
+    ctx.fillStyle = "black";
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-    let xLeft = Math.floor(player[0].x);
-    let xRight = Math.ceil(player[0].x + 1);
-    let yTop = Math.floor(player[0].y);
-    let yBot = Math.ceil(player[1].y + 1);
+    if (collide(coin) != null) {
+        coin.splice(collide(coin), 1);
+    }
+
+    if (collide(lava) != null) {
+        clearInterval(gameLoop);
+        levelSelect();
+    }
+    if (openExit() && collide(exit)) {
+        clearInterval(gameLoop);
+        levelSelect();
+    }
+
+    let sideways = sidewaysCollision();
+    let groundBool = onGround();
+
 
     //Sideways Movement
-    if (keyState[39] && sidewaysCollision(xLeft, xRight, yTop, yBot) != "right"){ 
+    if (keyState[39] && sideways != "right"){ 
         player[0].x += playerXSpeed;
         player[1].x += playerXSpeed;
     }
-    if (keyState[37] && sidewaysCollision(xLeft, xRight, yTop, yBot) != "left"){ 
+    if (keyState[37] && sideways != "left"){ 
         player[0].x -= playerXSpeed;
         player[1].x -= playerXSpeed;
     }
 
     //Head collision
-    if (headBonk(xLeft, xRight, yTop)) {
+    if (headBonk()) {
         playerYSpeed = 0;
        }
-    console.log(onGround(yBot, xLeft, xRight));
-    //Fall onto ground
-    if (!onGround(yBot, xLeft, xRight)) {
-        playerYSpeed += gravity;
+    
+     //Fall onto ground
+     if (!groundBool) {
+    playerYSpeed += gravity;
     } else if (playerYSpeed > 0) {
-         playerYSpeed = 0;
+    playerYSpeed = 0;
     }
 
     //Jump
-    if (keyState[38] && onGround(yBot, xLeft, xRight)) {
-        console.log("a")
+    if (groundBool && keyState[38]) {
         playerYSpeed = -.4;
     }
 

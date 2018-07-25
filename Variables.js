@@ -8,6 +8,7 @@ let playerX;
 let playerY;
 let playerYSpeed = 0;
 let playerXSpeed = .2;
+const almostOne = .999;
 let moveLeft;
 let moveRight;
 let gravity = .028;
