@@ -37,6 +37,15 @@
      }
     }
 
+    function clearData(e) {
+        click(e);
+        if (titleScreen && mousePos.x > 500 && mousePos.y > 360) {
+            localStorage.clear();
+            loadDefault();
+        }
+
+    }
+
     function move(e) {
         keyState[e.keyCode || e.which] = true;
     }
@@ -45,6 +54,7 @@
         keyState[e.keyCode || e.which] = false;
     }
    
+   canvas.addEventListener("click", clearData);
    canvas.addEventListener("click", play);
    canvas.addEventListener("click", playLevel);
    document.addEventListener("keydown", move);

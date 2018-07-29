@@ -15,14 +15,19 @@ function title() {
     ctx.fillStyle = yellow;
     ctx.fillRect(80, 240, 140, 80);
     ctx.fillRect(380, 240, 140, 80);
+    ctx.fillStyle = green;
+    ctx.fillRect(500, 360, 100, 40);
     ctx.fillStyle = "black";
     ctx.font = "40px Arial";
     ctx.fillText("START", 150, 290);
     ctx.font = "28px Arial";
     ctx.fillText("CREATE", 450, 275);
     ctx.fillText("LEVEL", 450, 303);
+    ctx.font = "20px Arial";
+    ctx.fillText("Clear Data", 550, 385);
     ctx.fillStyle = "black";
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
 }
 
 //Level Select

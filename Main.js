@@ -97,7 +97,7 @@ let doDraw = (function () {
  let headBonk = function() {
      for (let i = 0; i < ground.length; i++) {
          if (((Math.floor(player[0].x) === ground[i].x) || 
-         (Math.ceil(player[0].x) === ground[i].x)) && (Math.ceil(player[0].y - 1) === ground[i].y)) {
+         (Math.ceil(player[0].x) === ground[i].x)) && (Math.ceil(player[0].y) === ground[i].y + 1)) {
             player[0].y = Math.ceil(player[0].y);
             player[1].y = Math.ceil(player[1].y);
             return true;
@@ -123,6 +123,51 @@ let doDraw = (function () {
 }
 
  let paint = function() {
+
+    let sideways = sidewaysCollision();
+    let groundBool = onGround();
+
+
+    //Sideways Movement
+    if (keyState[39] && sideways != "right"){ 
+        player[0].x += playerXSpeed;
+        player[0].x = Number(player[0].x.toFixed(1));
+        player[1].x += playerXSpeed;
+        player[1].x = Number(player[1].x.toFixed(1));
+    }
+    if (keyState[37] && sideways != "left"){ 
+        player[0].x -= playerXSpeed;
+        player[0].x = Number(player[0].x.toFixed(1));
+        player[1].x -= playerXSpeed;
+        player[1].x = Number(player[1].x.toFixed(1));
+    }
+
+    //Jump
+    if (groundBool && keyState[38]) {
+        playerYSpeed = -.4;
+    }
+
+    //Fall onto ground
+     if (!groundBool) {
+    playerYSpeed += gravity;
+    } else if (playerYSpeed > 0) {
+    playerYSpeed = 0;
+    }
+
+    //Acceleration
+    player[0].y += playerYSpeed;
+    player[0].y = Number(player[0].y.toFixed(2));
+    player[1].y += playerYSpeed;
+    player[1].y = Number(player[1].y.toFixed(2));
+
+    //Head collision
+    if (headBonk()) {
+        playerYSpeed = 0;
+    }
+
+    //No clipping into ground
+    onGround();
+
     //Draw everything
     ctx.fillStyle = lightBlue;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -146,42 +191,6 @@ let doDraw = (function () {
         clearInterval(gameLoop);
         levelSelect();
     }
-
-    let sideways = sidewaysCollision();
-    let groundBool = onGround();
-
-
-    //Sideways Movement
-    if (keyState[39] && sideways != "right"){ 
-        player[0].x += playerXSpeed;
-        player[1].x += playerXSpeed;
-    }
-    if (keyState[37] && sideways != "left"){ 
-        player[0].x -= playerXSpeed;
-        player[1].x -= playerXSpeed;
-    }
-
-    //Head collision
-    if (headBonk()) {
-        playerYSpeed = 0;
-       }
-    
-     //Fall onto ground
-     if (!groundBool) {
-    playerYSpeed += gravity;
-    } else if (playerYSpeed > 0) {
-    playerYSpeed = 0;
-    }
-
-    //Jump
-    if (groundBool && keyState[38]) {
-        playerYSpeed = -.4;
-    }
-
-    //Acceleration
-    player[0].y += playerYSpeed;
-    player[1].y += playerYSpeed;
-
 }
 
  let init = function() {
