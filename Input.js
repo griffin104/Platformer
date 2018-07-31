@@ -42,20 +42,44 @@
         if (titleScreen && mousePos.x > 500 && mousePos.y > 360) {
             localStorage.clear();
             loadDefault();
+            $("#clearData").show().fadeOut(1500);
+        }
+    }
+
+    function back(e) {
+        click(e);
+        if (levelSelectScreen && mousePos.x < 100 && mousePos.y > 360) {
+            levelSelectScreen = false;
+            title();
+        }
+    }
+
+    function keyDown(e) {
+        keyState[e.keyCode || e.which] = true;
+
+        //Pause
+        if (keyState[80] && gameScreen) {
+            if (!paused) {
+                paused = true
+            } else {
+                paused = false;
+            }
         }
 
+        //Reset
+        if (keyState[82] && gameScreen) {
+            clearInterval(gameLoop);
+            doDraw.init();
+        }
     }
 
-    function move(e) {
-        keyState[e.keyCode || e.which] = true;
-    }
-
-    function stopMove(e) {
+    function keyUp(e) {
         keyState[e.keyCode || e.which] = false;
     }
    
    canvas.addEventListener("click", clearData);
    canvas.addEventListener("click", play);
    canvas.addEventListener("click", playLevel);
-   document.addEventListener("keydown", move);
-   document.addEventListener("keyup", stopMove);
+   canvas.addEventListener("click", back);
+   document.addEventListener("keydown", keyDown);
+   document.addEventListener("keyup", keyUp);

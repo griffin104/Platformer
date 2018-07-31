@@ -8,12 +8,14 @@ let playerX;
 let playerY;
 let playerYSpeed = 0;
 let playerXSpeed = .2;
-const almostOne = .999;
+let almostOne = .999;
 let moveLeft;
 let moveRight;
 let gravity = .028;
 let titleScreen = false;
 let levelSelectScreen = false;
+let gameScreen = false;
+let paused = false;
 let defaultLevels = ["SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS\
 SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS\
 SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS\

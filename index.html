@@ -3,10 +3,38 @@
         left: -50%;
         position: relative;
     }
+
+    .wrap {
+        left: 50%;
+        position: absolute;
+    }
+
+    .popUp {
+        width: 600px;
+        left: -50%;
+        position: relative;
+        text-align: center;
+        color: white;
+        display: none;
+        font-size: 350%;
+    }
 </style>
-<div style = "left: 50%; position: absolute">
-    <canvas id= "game" class= "game" width= "1000" height= "400px"></canvas>
+
+<head>
+    <script src="jquery-3.3.1.min.js"></script>
+</head>
+
+<div class = "wrap">
+    <canvas id= "game" class= "game" width= "600px" height= "400px"></canvas>
 </div>
+
+<div class= "wrap" style= "top: 5%">
+    <h1 id = "clearData" class = "popUp">GAME DATA HAS BEEN CLEARED</h1>
+    <h1 id = "dead" class = "popUp">YOU DIED</h1>
+    <h1 id = "win" class = "popUp">YOU WIN</h1>
+</div>
+
+
 <script src = "Variables.js"></script>
 <script src = "Menu.js"></script>
 <script src = "Main.js"></script>

@@ -124,9 +124,10 @@ let doDraw = (function () {
 
  let paint = function() {
 
+    if (!paused) {
+
     let sideways = sidewaysCollision();
     let groundBool = onGround();
-
 
     //Sideways Movement
     if (keyState[39] && sideways != "right"){ 
@@ -184,16 +185,23 @@ let doDraw = (function () {
     }
 
     if (collide(lava) != null) {
+        gameScreen = false;
         clearInterval(gameLoop);
-        levelSelect();
+        doDraw.init();
+        $("#dead").show().fadeOut(1500);
     }
     if (openExit() && collide(exit)) {
+        gameScreen = false;
         clearInterval(gameLoop);
         levelSelect();
+        $("#win").show().fadeOut(1500);
     }
+  }
 }
 
  let init = function() {
+    canvas.tabIndex = "1";
+    gameScreen = true;
     loadMap();
     gameLoop = setInterval(paint, 1000/30);
 }

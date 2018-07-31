@@ -40,6 +40,11 @@ function levelSelect() {
     ctx.fillStyle = brown;
     ctx.fillRect(0, 0, 600, 400);
     ctx.fillStyle = lightBlue;
+    ctx.fillStyle = green;
+    ctx.fillRect(0, 360, 100, 40);
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("Back", 50, 385);
     ctx.font = "50px Arial"
     ctx.fillText("SELECT LEVEL", 300, 60);
     for (let i = 0; i <= 3; i++) {
