@@ -1,32 +1,31 @@
-let doDraw = (function () {
-
- let loadMap = function() {
+let loadMap = function(level) {
     player = [];
     lava = [];
     exit = [];
     ground = [];
     coin = [];
-    if (currentLevel.length === 300) {
+    if (level.length === 300) {
         mapWidth = 30;
+        console.log("fdss")
         canvas.width = 600;
         canvas.height = 200;
-    } else if (currentLevel.length === 400) {
+    } else if (level.length === 400) {
         mapWidth = 20;
         canvas.width = 400;
         canvas.height = 400;
-    } else if (currentLevel.length === 1000){
+    } else if (level.length === 1000){
         canvas.width = 1000;
         canvas.height = 400;
         mapWidth = 50;
     }
-    for (let i = 0; i < currentLevel.length; i++) {
+    for (let i = 0; i < level.length; i++) {
         let xCoord = i % mapWidth;
         let yCoord = Math.floor(i / mapWidth);
         let point = {
             x: xCoord,
             y: yCoord
         };
-        switch (currentLevel[i]) {
+        switch (level[i]) {
             case "P":
                 point.color = green;
                 player.push(point);
@@ -51,12 +50,27 @@ let doDraw = (function () {
     }
  }
 
- let drawMap = function(block) {
+let drawMap = function(block) {
     for (let i = 0; i < block.length; i++){
         ctx.fillStyle = block[i].color;
         ctx.fillRect(block[i].x * 20, block[i].y * 20, 20, 20);
     }
  }
+
+let makeNewMap = function(map, index, block) {
+    return map.substr(0, index) + block + map.substr(index + 1, map.length);
+}
+
+let checkForSky = function (block, index) {
+    for (let i = 0; i < block.length; i++) {
+        if ((block[i].x + block[i].y * mapWidth) == index) {
+            console.log(block[i])
+            block.splice(i, 1);
+        }
+    }
+}
+
+let doDraw = (function () {
 
  let collide = function(arr) {
      let answer = null;
@@ -202,7 +216,7 @@ let doDraw = (function () {
  let init = function() {
     canvas.tabIndex = "1";
     gameScreen = true;
-    loadMap();
+    loadMap(currentLevel);
     gameLoop = setInterval(paint, 1000/30);
 }
 

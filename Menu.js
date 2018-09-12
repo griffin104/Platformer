@@ -27,7 +27,6 @@ function title() {
     ctx.fillText("Clear Data", 550, 385);
     ctx.fillStyle = "black";
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
 }
 
 //Level Select
@@ -39,7 +38,6 @@ function levelSelect() {
     levelSelectScreen = true;
     ctx.fillStyle = brown;
     ctx.fillRect(0, 0, 600, 400);
-    ctx.fillStyle = lightBlue;
     ctx.fillStyle = green;
     ctx.fillRect(0, 360, 100, 40);
     ctx.font = "20px Arial";
@@ -75,6 +73,36 @@ function levelSelect() {
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
 
+//Create Level Select
+
+function createLevelSelect() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.width = 600;
+    canvas.height = 400;
+    ctx.textAlign = "center";
+    createLevelSelectScreen = true;
+    ctx.fillStyle = brown;
+    ctx.fillRect(0, 0, 600, 400);
+    ctx.fillStyle = green;
+    ctx.fillRect(0, 360, 100, 40);
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("Back", 50, 385);
+    ctx.font = "50px Arial";
+    ctx.fillText("SELECT LEVEL STYLE", 300, 60);
+    ctx.fillStyle = green;
+    ctx.fillRect(40, 150, 150, 100);
+    ctx.fillRect(225, 150, 150, 100);
+    ctx.fillRect(410, 150, 150, 100);
+    ctx.fillStyle = yellow
+    ctx.font = "44px Arial";
+    ctx.fillText("Long", 115, 215);
+    ctx.fillText("Square", 300, 215);
+    ctx.fillText("Huge", 485, 215);
+
+    ctx.fillStyle = "black";
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+}
 //Load default levels
 function loadDefault() {
     for (let i = 0; i <= 2; i++) {
